@@ -97,6 +97,10 @@ app.post("/signup", function (req, res) {
 	});
 });
 
+app.get("/home", function (req, res) { 
+    res.sendFile(__dirname + "/public/home.html");
+});
+
 app.listen(3000, function () {
 	console.log("Example app listening on port 3000!");
 });

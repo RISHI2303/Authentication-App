@@ -28,7 +28,8 @@ loginButtonNode.addEventListener("click", function () {
         // console.log(response);
         if (response == "1") {
             // window.location.href = "/";
-            alert("Login successful!");
+            // alert("Login successful!");
+            window.location.href = "/home";
         } else {
             alert("Invalid email or password");
         }
