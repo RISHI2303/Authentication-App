@@ -26,11 +26,15 @@ loginButtonNode.addEventListener("click", function () {
         // console.log(`this is response: ${request.responseText}`);
         var response = request.responseText;
         // console.log(response);
-        if (response === 1) {
+        if (response == "1") {
             // window.location.href = "/";
             alert("Login successful!");
         } else {
             alert("Invalid email or password");
         }
     });
+});
+
+signUpButtonNode.addEventListener("click", function () {
+    window.location.href = "signup.html";
 });
