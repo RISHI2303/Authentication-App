@@ -10,6 +10,6 @@
 	"author": "Rishi Goyal",
 	"license": "ISC",
 	"dependencies": {
-		"express": "*"
+		"express": "^4.17.3"
 	}
 }

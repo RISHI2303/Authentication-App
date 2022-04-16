@@ -10036,10 +10036,10 @@ textarea.form-control {
 	color: rgba(0, 0, 0, 0.2);
 }
 .checkbox-primary {
-	color: #fbceb5;
+	color: #00ffa9;
 }
 .checkbox-primary input:checked ~ .checkmark:after {
-	color: #fbceb5;
+	color: #00ffa9;
 }
 .btn {
 	cursor: pointer;
