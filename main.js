@@ -6,6 +6,7 @@ var session = require("express-session");
 app.use(
 	session({
 		secret: "secret",
+		resave: true,
 		saveUninitialized: true,
 	})
 );
@@ -17,7 +18,7 @@ app.get("/", function (req, res) {
 	if (req.session.isLoggedIn) {
 		var currentUser = req.session.email;
 		console.log(currentUser);
-		res.end(`<h1>Welcome ${currentUser}</h1>`);
+		res.end(`<h1>Welcome ${currentUser}</h1> <script src="home.js"></script>`);
 	} else {
 		res.sendFile(__dirname + "/public/login.html");
 	}
@@ -29,9 +30,9 @@ app.get("/signup", function (req, res) {
 
 app.post("/login", function (req, res) {
 	var userData = req.body;
-	// console.log(`this is the user data: ${userData}`);
-	// console.log(`this is the user EMAIL : ${user.email}`);
-	// console.log(`this is the user PASSWORD : ${user.password}`);
+	console.log(`this is the user data: ${userData}`);
+	console.log(`this is the user EMAIL : ${userData.email}`);
+	console.log(`this is the user PASSWORD : ${userData.password}`);
 
 	fs.readFile("./db.txt", "utf-8", function (err, data) {
 		if (err) {
@@ -109,16 +110,17 @@ app.post("/signup", function (req, res) {
 });
 
 app.get("/home", function (req, res) {
-	res.sendFile(__dirname + "/public/home.html");
+	res.end(`<h1>Welcome ${req.session.email}</h1> <script src="home.js"></script>`);
 });
 
 app.get("/login", function (req, res) { 
 	if (req.session.isLoggedIn) {
+		console.log(req.session.isLoggedIn);
 		res.redirect("/");
 	}
 	else {
-		var currentUser = req.session.email;
-		res.send(`<h1>Welcome ${currentUser}</h1>`);
+		console.log(req.session.isLoggedIn);
+		res.end(`<h1>Welcome ${req.session.email}</h1> <script src="home.js"></script>`);
 	}
 });
 
