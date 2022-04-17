@@ -83,8 +83,8 @@ app.post("/signup", function (req, res) {
 				users = JSON.parse(data);
 				for (var i = 0; i < users.length; i++) {
 					if (users[i].email == userData.email) {
-						res.end("2");
 						found = true;
+						res.end("2");
 					}
 				}
 			}
@@ -116,12 +116,17 @@ app.get("/home", function (req, res) {
 app.get("/login", function (req, res) { 
 	if (req.session.isLoggedIn) {
 		console.log(req.session.isLoggedIn);
-		res.redirect("/");
+		res.redirect("/home");
 	}
 	else {
-		console.log(req.session.isLoggedIn);
-		res.end(`<h1>Welcome ${req.session.email}</h1> <script src="home.js"></script>`);
+		// res.end(`<h1>Welcome ${req.session.email}</h1> <script src="home.js"></script>`);
+		res.redirect("/login");
 	}
+});
+
+app.get("/logout", function (req, res) { 
+	req.session.destroy();
+	res.end("1");
 });
 
 app.listen(3000, function () {
