@@ -1,12 +1,26 @@
 var express = require("express");
 var app = express();
 var fs = require("fs");
+var session = require("express-session");
+
+app.use(
+	session({
+		secret: "secret",
+		saveUninitialized: true,
+	})
+);
 
 app.use(express.static("public"));
 app.use(express.json());
 
 app.get("/", function (req, res) {
-	res.sendFile(__dirname + "/public/login.html");
+	if (req.session.isLoggedIn) {
+		var currentUser = req.session.email;
+		console.log(currentUser);
+		res.end(`<h1>Welcome ${currentUser}</h1>`);
+	} else {
+		res.sendFile(__dirname + "/public/login.html");
+	}
 });
 
 app.get("/signup", function (req, res) {
@@ -16,11 +30,6 @@ app.get("/signup", function (req, res) {
 app.post("/login", function (req, res) {
 	var userData = req.body;
 	// console.log(`this is the user data: ${userData}`);
-	var user = {
-		email: userData.email,
-		password: userData.password,
-	};
-
 	// console.log(`this is the user EMAIL : ${user.email}`);
 	// console.log(`this is the user PASSWORD : ${user.password}`);
 
@@ -43,6 +52,8 @@ app.post("/login", function (req, res) {
 				}
 
 				if (found) {
+					req.session.isLoggedIn = true;
+					req.session.email = userData.email;
 					res.end("1");
 				} else {
 					res.end("0");
@@ -97,8 +108,18 @@ app.post("/signup", function (req, res) {
 	});
 });
 
-app.get("/home", function (req, res) { 
-    res.sendFile(__dirname + "/public/home.html");
+app.get("/home", function (req, res) {
+	res.sendFile(__dirname + "/public/home.html");
+});
+
+app.get("/login", function (req, res) { 
+	if (req.session.isLoggedIn) {
+		res.redirect("/");
+	}
+	else {
+		var currentUser = req.session.email;
+		res.send(`<h1>Welcome ${currentUser}</h1>`);
+	}
 });
 
 app.listen(3000, function () {
